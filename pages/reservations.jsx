@@ -23,7 +23,7 @@ const reservations = () => {
             <ReservationTable data={data} />
           </div>
         )}
-        {view === "Floor Plan View" && <Floorplan />}
+        {view === "Floor Plan View" && "🚧 im working on it folks 🚧"}
       </div>
     </div>
   );
