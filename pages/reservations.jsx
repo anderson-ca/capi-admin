@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Floorplan from "../components/floorplan/Floorplan";
+// import Floorplan from "../components/floorplan/Floorplan";
 import ReservationToolbar from "../components/Reservations/ReservationToolbar";
 import ReservationTable from "../components/Reservations/TableView";
 import CalendarView from "../components/Reservations/CalendarView";
