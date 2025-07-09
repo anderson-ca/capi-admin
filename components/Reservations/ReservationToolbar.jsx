@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { usePopUpContext } from "@/context/PopUp";
-import NewReservation from "@/components/Reservations/NewReservation";
+import { usePopUpContext } from "../../context/PopUp";
+import NewReservation from "./NewReservation";
 
 const ReservationToolbar = ({ view, setView }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

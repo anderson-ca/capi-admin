@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { DateRange } from "react-date-range";
-import { usePopUpContext } from "@/context/PopUp";
+import { usePopUpContext } from "../context/PopUp";
 import {
   addDays,
   subDays,

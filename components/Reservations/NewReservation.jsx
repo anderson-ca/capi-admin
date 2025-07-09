@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePopUpContext } from "@/context/PopUp";
+import { usePopUpContext } from "../../context/PopUp";
 import { z } from "zod";
 
 const reservationSchema = z.object({
