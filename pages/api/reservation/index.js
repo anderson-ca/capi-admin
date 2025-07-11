@@ -1,4 +1,4 @@
-// pages/api/reservations/index.ts
+// pages/api/reservation/index.ts
 import { prisma } from '../../../utils/prisma'; // adjust if needed
 
 export default async function handler(req, res) {
