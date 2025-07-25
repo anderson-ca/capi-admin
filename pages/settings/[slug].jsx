@@ -4,6 +4,7 @@ import RestaurantInfo from "../../components/Settings/RestaurantInfo";
 import LocationAndLocale from "../../components/Settings/Location&Locale";
 import SystemSettings from "../../components/Settings/SystemSettings";
 import ReservationSettings from "../../components/Settings/ReservationSettings";
+import StaffManagement from "../../components/Settings/StaffManagement";
 
 const SettingPage = () => {
   const router = useRouter();
@@ -20,6 +21,7 @@ const SettingPage = () => {
       {setting.slug === "locale" && <LocationAndLocale />}
       {setting.slug === "system" && <SystemSettings />}
       {setting.slug === "reservation" && <ReservationSettings />}
+      {setting.slug === "staff" && <StaffManagement />}
     </div>
   );
 };

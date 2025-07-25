@@ -24,20 +24,6 @@ const SideBar = () => {
         <li className="w-full px-[1.1rem] py-[0.5rem] hover:bg-[#efeeee]">
           <Link
             className="flex items-center gap-[1.1rem] no-underline"
-            href="/orders"
-          >
-            <Image
-              src="/side-nav/orders.png"
-              alt="sidebar-icon"
-              width={18}
-              height={18}
-            />
-            <p className="text-[#81819a] text-[1rem] font-[600]">Orders</p>
-          </Link>
-        </li>
-        <li className="w-full px-[1.1rem] py-[0.5rem] hover:bg-[#efeeee]">
-          <Link
-            className="flex items-center gap-[1.1rem] no-underline"
             href="/reservations"
           >
             <Image

@@ -1,8 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// ─────────────────────────────────────────────────────────────
+//  Prisma schema
+// ─────────────────────────────────────────────────────────────
 
 generator client {
   provider = "prisma-client-js"
@@ -14,8 +12,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/**
+ * ───────────────────
+ * Existing models
+ * ───────────────────
+ */
+
 model Reservation {
   id          String   @id @default(cuid())
+  tenantId    String
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+
   tableName   String
   guestNumber Int
   date        DateTime
@@ -26,5 +33,116 @@ model Reservation {
   phone       String
   restaurant  String
   comment     String?
+  status      String   @default("pending")
+  token       String?  @unique
+  expiresAt   DateTime?
   createdAt   DateTime @default(now())
+  deletedAt   DateTime?
+
+  @@unique([id, tenantId], name: "reservation_id_tenant")
+  @@index([tenantId])
+}
+
+
+model Staff {
+  id       String @id @default(cuid())
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  firstName String
+  lastName  String
+  email     String
+  phone     String?
+  role      String
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  @@unique([tenantId, email]) // same email can exist in another tenant
+  @@index([tenantId])
+}
+
+/**
+ * ───────────────────
+ * NEW multi-tenant core
+ * ───────────────────
+ */
+
+// Roles **inside** one tenant (restaurant account)
+enum Role {
+  owner
+  manager
+  waiter
+  delivery
+}
+
+/**
+ * users who can log in
+ */
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  memberships TenantMembership[] // ⇐ link table
+}
+
+/**
+ * one tenant = one restaurant account
+ */
+model Tenant {
+  id           String             @id @default(cuid())
+  name         String
+  memberships  TenantMembership[]
+  staff        Staff[]
+  customers    Customer[]
+  groups       CustomerGroup[]
+  reservations Reservation[]
+}
+
+/**
+ * join table = which user belongs to which tenant & as what
+ */
+model TenantMembership {
+  userId   String
+  tenantId String
+  role     Role
+
+  user   User   @relation(fields: [userId], references: [id])
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@id([userId, tenantId])
+}
+
+model CustomerGroup {
+  id       String @id @default(cuid())
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  name             String
+  description      String?
+  requiresApproval Boolean @default(false)
+
+  customers Customer[]
+
+  @@unique([id, tenantId], name: "id_tenantId")
+  @@index([tenantId])
+}
+
+model Customer {
+  id       String @id @default(cuid())
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  firstName String
+  lastName  String
+  email     String
+  phone     String?
+  groupId   String?
+  group     CustomerGroup? @relation(fields: [groupId], references: [id])
+  createdAt DateTime       @default(now())
+  deletedAt DateTime?
+
+  @@unique([id, tenantId], name: "customer_id_tenant")
+  @@index([tenantId])
 }

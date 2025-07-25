@@ -25,6 +25,12 @@ const adminSettings = [
     slug: 'system',
     configured: false,
   },
+  {
+    title: 'Staff Management',
+    description: 'Manage staff members, roles, and permissions.',
+    slug: 'staff',
+    configured: false,
+  },
 ];
   
   export default adminSettings;

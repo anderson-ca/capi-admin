@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { usePopUpContext } from "../../context/PopUp";
+import { ToastContainer, toast } from "react-toastify";
 import { z } from "zod";
 
 const reservationSchema = z.object({
@@ -79,18 +80,17 @@ const NewReservation = () => {
 
       if (!res.ok) {
         const text = await res.text();
-        console.error("Server Error:", text);
-        alert("Failed: " + text);
+        toast.error(`😪 - Server error: ${text}`);
         return;
       }
 
       const data = await res.json();
 
-      console.log("✅ Reservation created:", data);
-      closePopUp();
+      toast.success("🍽️ - Reservation saved – please check your e-mail!");
+      closePopUp(); // ✅ dismiss modal
     } catch (err) {
       console.error("❌ Network error:", err);
-      alert("Failed to connect to server.");
+      toast.error("😰 - Network error – please try again.");
     }
   };
 
